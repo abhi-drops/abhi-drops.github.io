@@ -1,0 +1,321 @@
+/* Story viewer */
+.story-overlay {
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.st-brand {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+.st-brand img {
+  height: 28px;
+  display: block;
+}
+.st-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 8px;
+  color: #fff;
+}
+.st-close .icon {
+  width: 30px;
+  height: 30px;
+}
+
+.st-wrap {
+  position: relative;
+  height: min(calc(100vh - 32px), 920px);
+  aspect-ratio: 9 / 16;
+}
+.st-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+  user-select: none;
+  transform: scale(0.94);
+  transition: transform 0.22s var(--ease);
+}
+.story-overlay.is-open .st-card {
+  transform: none;
+}
+
+.st-stage {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+  cursor: pointer;
+}
+.st-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.st-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 40px 28px;
+  text-align: center;
+  animation: st-in 0.35s var(--ease);
+}
+.st-emoji {
+  font-size: 76px;
+  line-height: 1;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.25));
+}
+.st-title {
+  font-size: 30px;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
+}
+.st-body {
+  font-size: 17px;
+  line-height: 1.45;
+  white-space: pre-line;
+  max-width: 30ch;
+  opacity: 0.95;
+}
+@keyframes st-in {
+  from {
+    opacity: 0.4;
+    transform: scale(1.03);
+  }
+}
+.st-caption {
+  position: absolute;
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  max-width: 85%;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.55);
+  font-size: 15px;
+  text-align: center;
+}
+
+/* Link sticker (white pill, like Instagram) */
+.st-link {
+  position: absolute;
+  left: 50%;
+  top: 72%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 85%;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: #fff;
+  color: #2b5ff6;
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+  animation: sticker-in 0.4s var(--ease) 0.15s both;
+}
+.st-link span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.st-link .icon {
+  width: 18px;
+  height: 18px;
+}
+@keyframes sticker-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.6) rotate(-6deg);
+  }
+}
+
+.st-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 12px 12px 28px;
+  background: linear-gradient(rgba(0, 0, 0, 0.45), transparent);
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.st-top button {
+  pointer-events: auto;
+}
+.st-bars {
+  display: flex;
+  gap: 3px;
+}
+.st-bar {
+  flex: 1;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+}
+.st-bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #fff;
+}
+.st-head {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+}
+.st-head-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+}
+.st-head-cover .hl-cover {
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+}
+.st-head-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+.st-head-name .verified {
+  width: 14px;
+  height: 14px;
+}
+.st-head-sub {
+  color: rgba(255, 255, 255, 0.75);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.st-head .icon-btn {
+  color: #fff;
+  padding: 6px;
+}
+.st-head .icon {
+  width: 22px;
+  height: 22px;
+}
+.st-mute {
+  font-size: 18px;
+}
+.st-close-inline {
+  display: none !important;
+}
+
+.st-foot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 12px 14px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.4));
+  transition: opacity 0.2s;
+}
+.st-reply {
+  flex: 1;
+  height: 44px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 22px;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.85);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.st-foot .icon-btn {
+  color: #fff;
+}
+.st-like.is-liked {
+  color: var(--red);
+}
+.st-like.is-liked svg {
+  fill: currentColor;
+}
+
+.st-card.is-held .st-top,
+.st-card.is-held .st-foot {
+  opacity: 0;
+}
+
+.st-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  color: #000;
+}
+.st-arrow .icon {
+  width: 18px;
+  height: 18px;
+}
+.st-arrow--prev {
+  left: -50px;
+}
+.st-arrow--next {
+  right: -50px;
+}
+
+@media (max-width: 735px) {
+  .story-overlay {
+    background: #000;
+  }
+  .st-wrap {
+    width: 100%;
+    height: 100dvh;
+    aspect-ratio: auto;
+  }
+  .st-card {
+    border-radius: 0;
+  }
+  .st-brand,
+  .st-close,
+  .st-arrow {
+    display: none;
+  }
+  .st-close-inline {
+    display: inline-flex !important;
+  }
+  .st-top {
+    padding-top: max(10px, env(safe-area-inset-top));
+  }
+  .st-foot {
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+  }
+}

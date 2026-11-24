@@ -1,0 +1,18 @@
+{
+  "name": "insta-profile",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "logo": "node scripts/make-logo.mjs",
+    "slides": "node scripts/slides/posts.mjs && node scripts/slides/college.mjs && node scripts/slides/taskodoro.mjs && node scripts/slides/stories.mjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5",
+    "simple-icons": "^16.38.1",
+    "vite": "^6.4.6"
+  }
+}

@@ -1,0 +1,54 @@
+/* Instagram-like design tokens. Dark is the default; light via [data-theme="light"]. */
+:root {
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --blue: #4a5df9;
+  --blue-hover: #3a4be0;
+  --verified: #0095f6;
+  --red: #ff3040;
+  --story-ring: linear-gradient(45deg, #f9ce34, #ee2a7b 55%, #6228d7);
+  --radius: 8px;
+  --header-h: 60px;
+  --content-w: 935px;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0c1014;
+  --bg-elev: #1c2024;
+  --bg-elev-2: #262a2f;
+  --overlay: rgba(0, 0, 0, 0.72);
+  --text: #f5f5f5;
+  --text-2: #a8a8a8;
+  --border: #262a2f;
+  --border-strong: #363a3f;
+  --btn: #25292e;
+  --btn-hover: #31353a;
+  --link: #8c9bff;
+  --bubble: #262a2f;
+  --bubble-me: #4a5df9;
+  --note-bg: #262a2f;
+  --tile-bg: #1c2024;
+  --shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #ffffff;
+  --bg-elev: #ffffff;
+  --bg-elev-2: #f3f4f6;
+  --overlay: rgba(0, 0, 0, 0.65);
+  --text: #000000;
+  --text-2: #737373;
+  --border: #dbdbdb;
+  --border-strong: #c7c7c7;
+  --btn: #efefef;
+  --btn-hover: #dbdbdb;
+  --link: #3949ab;
+  --bubble: #efefef;
+  --bubble-me: #4a5df9;
+  --note-bg: #ffffff;
+  --tile-bg: #efefef;
+  --shadow: 0 12px 48px rgba(0, 0, 0, 0.18);
+}

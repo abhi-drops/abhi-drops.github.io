@@ -1,0 +1,166 @@
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  border-top: 1px solid var(--border);
+}
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 52px;
+  padding: 0 8px;
+  margin-top: -1px;
+  color: var(--text-2);
+  border-top: 1px solid transparent;
+  border-bottom: 2px solid transparent;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.15s;
+}
+.tab .icon {
+  width: 16px;
+  height: 16px;
+}
+.tab:hover {
+  color: var(--text);
+}
+.tab.is-active {
+  color: var(--text);
+  border-bottom-color: var(--text);
+}
+
+/* Grid — 3 columns, tall 3:4 tiles, hairline gaps (as on the reference) */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3px;
+  animation: grid-in 0.25s var(--ease);
+}
+@keyframes grid-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--tile-bg);
+}
+.tile > .ph,
+.tile > .media-img {
+  transition: transform 0.4s var(--ease);
+}
+
+.tile-corner {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  color: #fff;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+  z-index: 2;
+}
+
+.tile-hover {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.tile-hover-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+.tile-hover-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 20px;
+  font-weight: 700;
+  font-size: 15px;
+}
+.tile-hover-stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tile-hover-stats .icon,
+.tile-hover-badges .icon {
+  width: 18px;
+  height: 18px;
+}
+.tile-hover-badges {
+  display: flex;
+  gap: 10px;
+}
+.tile-badge-liked {
+  color: var(--red);
+}
+
+@media (hover: hover) {
+  .tile:hover .tile-hover {
+    opacity: 1;
+  }
+  .tile:hover > .ph,
+  .tile:hover > .media-img {
+    transform: scale(1.03);
+  }
+}
+.tile:focus-visible .tile-hover {
+  opacity: 1;
+}
+
+@media (max-width: 1023px) {
+  .tile-hover-title {
+    font-size: 14px;
+  }
+  .tile-hover-stats {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 735px) {
+  .tabs {
+    gap: 0;
+  }
+  .tab {
+    flex: 1;
+    height: 44px;
+  }
+  .tab .icon {
+    width: 24px;
+    height: 24px;
+  }
+  .tab-label {
+    display: none;
+  }
+  .grid {
+    gap: 2px;
+  }
+  .tile-corner {
+    top: 6px;
+    right: 6px;
+    width: 16px;
+    height: 16px;
+  }
+}

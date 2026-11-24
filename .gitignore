@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+.claude/settings.local.json
+
+# Unused original photos (kept locally, not published)
+public/images/profile.jpeg
+public/images/avatar.jpg

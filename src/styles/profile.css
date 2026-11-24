@@ -1,0 +1,255 @@
+/* Profile header — desktop: avatar column + info column (like the reference). */
+.profile {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  grid-template-areas:
+    'avatar top'
+    'avatar bio';
+  align-items: start;
+  column-gap: 30px;
+  margin-bottom: 44px;
+  padding-top: 28px; /* room for the note bubble */
+}
+
+.p-avatar {
+  grid-area: avatar;
+  align-self: center; /* centred against the whole info column, like IG */
+  display: flex;
+  justify-content: center;
+}
+.avatar-wrap {
+  position: relative;
+}
+.avatar-ring {
+  display: block;
+  border-radius: 50%;
+  padding: 0;
+}
+.avatar-ring.has-story,
+.avatar-ring.story-seen {
+  padding: 4px;
+  background: var(--story-ring);
+  cursor: pointer;
+}
+.avatar-ring.story-seen {
+  background: var(--border-strong);
+}
+.avatar-ring.has-story .avatar,
+.avatar-ring.story-seen .avatar {
+  box-shadow: 0 0 0 4px var(--bg);
+}
+
+.p-top {
+  grid-area: top;
+}
+.p-userrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  min-height: 40px;
+}
+.p-username {
+  font-size: 20px;
+  line-height: 25px;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.p-userrow .verified {
+  width: 18px;
+  height: 18px;
+}
+.p-more .icon {
+  width: 24px;
+  height: 24px;
+}
+
+.p-stats {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 40px;
+  margin-bottom: 18px;
+  font-size: 16px;
+}
+.p-stat-list {
+  display: flex;
+  gap: 40px;
+}
+.p-stat {
+  font-size: 16px;
+  color: var(--text-2);
+  transition: color 0.15s;
+}
+.p-stat strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.p-stat:hover {
+  color: var(--text);
+}
+
+.p-bio {
+  grid-area: bio;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.p-name {
+  font-weight: 600;
+}
+.p-category {
+  color: var(--text-2);
+}
+.p-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  color: var(--link);
+  font-weight: 600;
+  width: fit-content;
+}
+.p-link .icon {
+  width: 14px;
+  height: 14px;
+}
+.p-link:hover {
+  text-decoration: underline;
+}
+
+.p-actions {
+  display: none;
+}
+
+/* Highlights */
+.highlights {
+  margin: 0 0 44px;
+}
+.hl-list {
+  display: flex;
+  gap: 32px;
+  overflow-x: auto;
+  padding: 4px 16px;
+  scrollbar-width: none;
+}
+.hl-list::-webkit-scrollbar {
+  display: none;
+}
+.hl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 87px;
+}
+.hl-ring {
+  display: block;
+  padding: 3px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  transition: transform 0.15s var(--ease);
+}
+.hl:active .hl-ring {
+  transform: scale(0.95);
+}
+.hl-cover {
+  display: block;
+  width: 77px;
+  height: 77px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.hl-cover--ph {
+  display: grid;
+  place-items: center;
+  font-size: 32px;
+  color: #fff;
+}
+.hl-title {
+  font-size: 12px;
+  font-weight: 600;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Tablet: same layout, a bit tighter */
+@media (max-width: 1023px) and (min-width: 736px) {
+  .p-stat-list {
+    gap: 28px;
+  }
+  .p-stats {
+    column-gap: 28px;
+  }
+}
+
+/* Phone: avatar left with username + stats beside it, bio below (matches IG mobile web) */
+@media (max-width: 735px) {
+  .profile {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      'avatar top'
+      'bio bio'
+      'actions actions';
+    column-gap: 20px;
+    row-gap: 14px;
+    padding: 34px 16px 0;
+    margin-bottom: 20px;
+  }
+  .p-avatar {
+    align-self: center;
+  }
+  .p-userrow {
+    margin-bottom: 6px;
+    min-height: 0;
+  }
+  .p-username {
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .p-stats {
+    margin: 0;
+  }
+  .p-stat-list {
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .p-stat {
+    font-size: 14px;
+  }
+  .p-message-desktop {
+    display: none;
+  }
+  .p-actions {
+    grid-area: actions;
+    display: flex;
+    gap: 8px;
+  }
+  .p-actions .btn {
+    flex: 1;
+  }
+
+  .highlights {
+    margin-bottom: 16px;
+  }
+  .hl-list {
+    gap: 16px;
+    padding: 4px 16px 8px;
+  }
+  .hl {
+    width: 66px;
+    gap: 6px;
+  }
+  .hl-cover {
+    width: 58px;
+    height: 58px;
+  }
+  .hl-cover--ph {
+    font-size: 24px;
+  }
+}
