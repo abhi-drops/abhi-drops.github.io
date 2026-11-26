@@ -262,6 +262,35 @@ p {
   user-select: none;
 }
 
+/* Image loading: shimmering skeleton until the image arrives, then a quick fade-in.
+   The shimmer is the <img>'s own background, so it works in tiles, carousels,
+   round avatars/covers and stories without extra wrappers. */
+.img-loading,
+.img-error {
+  background: var(--skeleton) linear-gradient(100deg, transparent 30%, var(--skeleton-shine) 50%, transparent 70%) no-repeat;
+  background-size: 250% 100%;
+  color: transparent; /* hide alt text while loading */
+}
+.img-loading {
+  animation: skeleton 1.3s ease-in-out infinite;
+}
+.img-loaded {
+  animation: img-in 0.35s var(--ease);
+}
+@keyframes skeleton {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+@keyframes img-in {
+  from {
+    opacity: 0;
+  }
+}
+
 /* Main column */
 .main {
   max-width: calc(var(--content-w) + 40px);
@@ -369,5 +398,9 @@ p {
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+  /* A still skeleton instead of a shimmer squeezed to 0.01ms */
+  .img-loading {
+    animation: none !important;
   }
 }

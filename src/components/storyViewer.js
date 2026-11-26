@@ -2,7 +2,7 @@
 // Tap right/left = next/prev slide, hold = pause, swipe = next/prev highlight, swipe down = close.
 import { h, asset } from '../lib/dom.js';
 import { icon } from '../lib/icons.js';
-import { avatar, cover } from '../lib/placeholder.js';
+import { avatar, cover, loadingImg } from '../lib/placeholder.js';
 import { config } from '../lib/data.js';
 import { navigate, linkTo } from '../lib/router.js';
 import { storySeen, changed } from '../lib/state.js';
@@ -22,6 +22,7 @@ export function StoryViewer(startId, { onClose }) {
   let elapsed = 0;
   let duration = IMAGE_MS;
   let paused = false;
+  let loading = false; // the timer waits until the slide's image has arrived
   let video = null;
   let raf = 0;
   let lastTs = 0;
@@ -120,8 +121,13 @@ export function StoryViewer(startId, { onClose }) {
     });
 
     let content;
+    loading = false;
     if (slide.type === 'image') {
-      content = h('img', { class: 'st-media', src: asset(slide.src), alt: slide.caption || '', draggable: false });
+      loading = true;
+      content = loadingImg({ class: 'st-media', src: asset(slide.src), alt: slide.caption || '', draggable: false }, () => {
+        if (content.isConnected) loading = false;
+        preloadNext();
+      });
     } else if (slide.type === 'video') {
       video = h('video', { class: 'st-media', src: asset(slide.src), playsInline: true, muted: true, autoplay: true });
       video.addEventListener('ended', next);
@@ -146,6 +152,12 @@ export function StoryViewer(startId, { onClose }) {
     prevBtn.hidden = r === 0 && s === 0;
     nextBtn.hidden = false;
     setPaused(false);
+  }
+
+  // Warm the cache for the next image slide so tapping forward feels instant
+  function preloadNext() {
+    const after = reels[r].slides[s + 1] || reels[r + 1]?.slides[0];
+    if (after?.type === 'image') new Image().src = asset(after.src);
   }
 
   function next() {
@@ -182,7 +194,7 @@ export function StoryViewer(startId, { onClose }) {
   function tick(ts) {
     const dt = Math.min(100, lastTs ? ts - lastTs : 0);
     lastTs = ts;
-    if (!paused) {
+    if (!paused && !loading) {
       let progress;
       if (video) progress = video.duration ? video.currentTime / video.duration : 0;
       else {

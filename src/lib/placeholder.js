@@ -6,9 +6,24 @@ import { config } from './data.js';
 const DEFAULT_GRADIENT = ['#4a5df9', '#a855f7'];
 const bg = (gradient = DEFAULT_GRADIENT) => `linear-gradient(135deg, ${gradient[0]}, ${gradient[1]})`;
 
+// <img> that shows a shimmering skeleton until it loads, then fades in.
+// onLoad also fires on error, so callers waiting on it never stall.
+export function loadingImg(props, onLoad) {
+  const img = h('img', { ...props, class: `${props.class || ''} img-loading` });
+  img.addEventListener('load', () => {
+    img.classList.replace('img-loading', 'img-loaded');
+    onLoad?.();
+  }, { once: true });
+  img.addEventListener('error', () => {
+    img.classList.replace('img-loading', 'img-error');
+    onLoad?.();
+  }, { once: true });
+  return img;
+}
+
 export function media(item, { variant = 'slide', alt = '' } = {}) {
   if (typeof item === 'string') {
-    return h('img', { class: 'media-img', src: asset(item), alt, loading: 'lazy', draggable: false });
+    return loadingImg({ class: 'media-img', src: asset(item), alt, loading: 'lazy', draggable: false });
   }
   return h(
     'div',
@@ -31,11 +46,11 @@ export const tile = (post) =>
 
 export function avatar(size = '') {
   const { avatar: src, avatarPosition, initials, name } = config.profile;
-  if (src) return h('img', { class: `avatar ${size}`, src: asset(src), alt: name, draggable: false, style: avatarPosition && `object-position: ${avatarPosition}` });
+  if (src) return loadingImg({ class: `avatar ${size}`, src: asset(src), alt: name, draggable: false, style: avatarPosition && `object-position: ${avatarPosition}` });
   return h('div', { class: `avatar avatar--ph ${size}`, role: 'img', 'aria-label': name }, h('span', null, initials));
 }
 
 export function cover(c, label) {
-  if (typeof c === 'string') return h('img', { class: 'hl-cover', src: asset(c), alt: label, draggable: false });
+  if (typeof c === 'string') return loadingImg({ class: 'hl-cover', src: asset(c), alt: label, draggable: false });
   return h('div', { class: 'hl-cover hl-cover--ph', style: { background: bg(c?.gradient) } }, c?.icon || label[0]);
 }

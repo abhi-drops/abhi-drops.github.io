@@ -162,6 +162,9 @@ function Carousel(post, { onIndex, onDoubleTap: onDouble }) {
 
   function go(n) {
     index = Math.max(0, Math.min(count - 1, n));
+    // Fetch the current and next slide now, so swiping rarely lands on a skeleton
+    track.children[index]?.querySelector('img')?.setAttribute('loading', 'eager');
+    track.children[index + 1]?.querySelector('img')?.setAttribute('loading', 'eager');
     track.style.transform = `translateX(${-index * 100}%)`;
     prev.hidden = index === 0;
     next.hidden = index === count - 1;

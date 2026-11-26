@@ -30,6 +30,8 @@
   --bubble-me: #4a5df9;
   --note-bg: #262a2f;
   --tile-bg: #1c2024;
+  --skeleton: #1c2024;
+  --skeleton-shine: #353b42;
   --shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
 }
 
@@ -50,5 +52,7 @@
   --bubble-me: #4a5df9;
   --note-bg: #ffffff;
   --tile-bg: #efefef;
+  --skeleton: #efefef;
+  --skeleton-shine: #fbfbfb;
   --shadow: 0 12px 48px rgba(0, 0, 0, 0.18);
 }
