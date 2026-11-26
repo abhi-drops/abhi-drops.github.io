@@ -1,10 +1,10 @@
 // Brand-style carousels for Experience, Skills and Education posts.
 // Usage: node scripts/slides/posts.mjs [postId | skills]
-// Writes public/images/projects/<postId>/01.jpg, 02.jpg, …
-import { W, M, ROOT, SRC, txt, chip, chipRow, shot, browser, phone, imgBox, panel, logo, logoHex, heading, postChrome, renderSvg, theme, writeSet, textW, id } from './lib.mjs';
+// Writes public/images/projects/<postId>/01.webp, 02.webp, …
+import { W, M, SRC, OUT_ROOT, EXT, txt, chip, chipRow, shot, browser, phone, imgBox, panel, logo, logoHex, heading, postChrome, renderSvg, theme, writeSet, textW, id } from './lib.mjs';
 
 const [, , ONLY] = process.argv;
-const OUT = `${ROOT}public/images/projects`;
+const OUT = `${OUT_ROOT}/projects`;
 const H = 1440;
 
 // ---------- helpers ----------
@@ -694,7 +694,7 @@ T.stepup = theme({
   decor: (H) => `${Array.from({ length: 26 }, (_, k) => `<line x1="${k * 90 - 400}" y1="${H}" x2="${k * 90 + 300}" y2="0" stroke="rgba(255,42,42,${k % 3 ? 0.06 : 0.14})" stroke-width="${k % 4 ? 3 : 10}"/>`).join('')}`,
 });
 
-const ITCH = `${SRC}itch`, PUB = `${ROOT}public/images/projects`;
+const ITCH = `${SRC}itch`, PUB = `${OUT_ROOT}/projects`;
 async function blFrame(sec) {
   const f = `${SRC}frames/blareland-${sec}.jpg`;
   return shot(f, null, 1280);
@@ -711,7 +711,7 @@ P.bca = {
   slides: [
     { title: ['Three years', 'of building.'], sub: ['Programming, data structures, databases', 'and web development foundations.'], art: async (t, y, h) => timeline(T.intern === t ? t : t, M, y, IW, Math.min(h, 660), [['2021', 'Started BCA', 'CMS College Kottayam'], ['2021 – 2023', 'First games', 'StepUp (GDevelop) · Blareland (Unity)'], ['2024', 'Graduated', 'Rhythm & FlickMate projects · CGPA 6.24']]).replace(/#2f7d32/g, '#2563eb').replace(/#eef6e6/g, '#fdfcf7').replace(/#18301a/g, '#1e293b') },
     { title: ['Built in', 'college.'], sub: ['Projects from my BCA years —', 'swipe through each in Education.'], art: async (t, y, h) => {
-      const imgs = await Promise.all(['rhythm/01.jpg', 'flickmate/01.jpg'].map((f) => shot(`${PUB}/${f}`, null, 700)));
+      const imgs = await Promise.all([`rhythm/01.${EXT}`, `flickmate/01.${EXT}`].map((f) => shot(`${PUB}/${f}`, null, 700)));
       const cw = (IW - 30) / 2, ch = cw * 4 / 3;
       return imgBox(M, y + 10, cw, ch, imgs[0], { r: 22 }) + imgBox(M + cw + 30, y + 60, cw, ch, imgs[1], { r: 22 });
     } },
@@ -729,7 +729,7 @@ P['mern-cert'] = {
   slides: [
     { title: ['M · E · R · N'], sub: ['Seven months of hands-on projects', 'across the whole stack.'], art: async (t, y, h) => logoGrid(M, y, IW, [['mongodb', 'MongoDB', 'Database'], ['express', 'Express', 'API framework'], ['react', 'React', 'Frontend'], ['nodedotjs', 'Node.js', 'Runtime']], { ch: Math.min(300, (h - 24) / 2) }) },
     { title: ['The final', 'project.'], sub: ['Steps Away — a city-based community', 'platform. Find it in Education.'], art: async (t, y, h) => {
-      const img = await shot(`${PUB}/stepsaway/01.jpg`, null, 800);
+      const img = await shot(`${PUB}/stepsaway/01.${EXT}`, null, 800);
       const ch = Math.min(h - 20, 760), cw = ch * 0.75;
       return imgBox((W - cw) / 2, y + 10, cw, ch, img, { r: 26 });
     } },

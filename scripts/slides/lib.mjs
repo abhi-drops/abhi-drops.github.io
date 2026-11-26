@@ -1,4 +1,4 @@
-// Shared SVG → JPEG slide toolkit (posts 1080×1440, stories 1080×1920).
+// Shared SVG → WebP slide toolkit (posts 1080×1440, stories 1080×1920).
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 const req = createRequire(import.meta.url);
@@ -7,6 +7,22 @@ export const SI = await import('simple-icons');
 
 export const ROOT = fileURLToPath(new URL('../../', import.meta.url)); // project root
 export const SRC = fileURLToPath(new URL('./source/', import.meta.url)); // frames & screenshots
+
+// Output: WebP by default. SLIDES_FORMAT=png|jpeg, SLIDES_QUALITY and SLIDES_OUT
+// (instead of public/images) exist for comparing encoders without touching the site.
+export const FORMAT = process.env.SLIDES_FORMAT || 'webp';
+export const EXT = FORMAT === 'jpeg' ? 'jpg' : FORMAT;
+export const OUT_ROOT = process.env.SLIDES_OUT || `${ROOT}public/images`;
+// q87 measured against lossless renders: higher SSIM than the old JPEG q86 (avg and
+// worst slide) at ~40% smaller files.
+const QUALITY = Number(process.env.SLIDES_QUALITY) || 87;
+
+export function encode(img, quality = QUALITY) {
+  if (FORMAT === 'png') return img.png({ compressionLevel: 9 }).toBuffer();
+  if (FORMAT === 'jpeg') return img.jpeg({ quality, mozjpeg: true }).toBuffer();
+  // smartSubsample keeps coloured text edges crisp; effort 6 = smallest files
+  return img.webp({ quality, smartSubsample: true, effort: 6 }).toBuffer();
+}
 
 export const W = 1080, M = 72;
 
@@ -149,7 +165,7 @@ export function postChrome(t, i, n, { last, H }) {
 export async function renderSvg(body, { H, t }) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
     <defs>${shadowDefs(t.shadow)}${t.defs || ''}</defs>${t.bg(H)}${body}</svg>`;
-  return sharp(Buffer.from(svg)).jpeg({ quality: 86, mozjpeg: true }).toBuffer();
+  return encode(sharp(Buffer.from(svg)));
 }
 
 // Title + subtitle; returns { svg, bottom }
@@ -179,6 +195,6 @@ export function theme({ dark = true, bg, text, sub, accent, onAccent, accentText
 export async function writeSet(dir, bufs) {
   const { mkdirSync, writeFileSync, readdirSync, rmSync } = await import('node:fs');
   mkdirSync(dir, { recursive: true });
-  for (const f of readdirSync(dir)) rmSync(`${dir}/${f}`);
-  bufs.forEach((b, i) => writeFileSync(`${dir}/${String(i + 1).padStart(2, '0')}.jpg`, b));
+  for (const f of readdirSync(dir)) rmSync(`${dir}/${f}`); // drop stale slides (and old formats)
+  bufs.forEach((b, i) => writeFileSync(`${dir}/${String(i + 1).padStart(2, '0')}.${EXT}`, b));
 }

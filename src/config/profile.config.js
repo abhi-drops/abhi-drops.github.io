@@ -5,11 +5,11 @@
  * ─────────────────────────────────────────────────────────────
  *
  *  Paths to files in /public are written without a leading slash
- *  (e.g. 'images/taskodoro-1.jpg') so the site works from any base URL.
+ *  (e.g. 'images/taskodoro-1.webp') so the site works from any base URL.
  *
  *  MEDIA (posts & story slides)
  *  Each item in a post's `media` array is EITHER
- *    - a string path / URL to a real image          → 'images/yard-1.jpg'
+ *    - a string path / URL to a real image          → 'images/yard-1.webp'
  *    - an object that renders a designer placeholder → { title, lines, icon, gradient }
  *  Leave `media` out and one placeholder is generated from the post itself.
  *  Swap placeholders for real images whenever you're ready.
@@ -31,16 +31,16 @@ const G = {
   night: ['#141e30', '#243b55'],
 };
 
-// Numbered carousel images in public/images/projects/<dir>/01.jpg, 02.jpg, …
+// Numbered carousel images in public/images/projects/<dir>/01.webp, 02.webp, …
 const slides = (dir, count) =>
-  Array.from({ length: count }, (_, i) => `images/projects/${dir}/${String(i + 1).padStart(2, '0')}.jpg`);
+  Array.from({ length: count }, (_, i) => `images/projects/${dir}/${String(i + 1).padStart(2, '0')}.webp`);
 
-// Image story slides in public/images/stories/<dir>/01.jpg, …
+// Image story slides in public/images/stories/<dir>/01.webp, …
 // links: { slideNumber: { url, label } } adds a link sticker to that slide (1-based).
 const storySlides = (dir, count, links = {}, duration) =>
   Array.from({ length: count }, (_, i) => ({
     type: 'image',
-    src: `images/stories/${dir}/${String(i + 1).padStart(2, '0')}.jpg`,
+    src: `images/stories/${dir}/${String(i + 1).padStart(2, '0')}.webp`,
     ...(links[i + 1] && { link: links[i + 1] }),
     ...(duration && { duration }),
   }));
@@ -55,7 +55,7 @@ export default {
     username: 'abhinand.as',
     name: 'Abhinand A S',
     verified: true,
-    avatar: 'images/me.jpg', // null shows generated initials
+    avatar: 'images/me.webp', // null shows generated initials
     initials: 'AS',
     category: 'Software Engineer · Full Stack Developer',
     bio: [
@@ -104,13 +104,13 @@ export default {
     {
       id: 'journey',
       title: 'Journey',
-      cover: 'images/stories/covers/journey.jpg',
+      cover: 'images/stories/covers/journey.webp',
       slides: storySlides('journey', 8, { 7: { url: 'https://taskodoro.mavnt.in', label: 'taskodoro.mavnt.in' } }, 6500),
     },
     {
       id: 'projects',
       title: 'Projects',
-      cover: 'images/stories/covers/projects.jpg',
+      cover: 'images/stories/covers/projects.webp',
       slides: storySlides('projects', 6, {
         1: { url: 'https://taskodoro.mavnt.in', label: 'taskodoro.mavnt.in' },
         2: { url: 'https://stepsaway-b892c.web.app', label: 'stepsaway-b892c.web.app' },
@@ -123,19 +123,19 @@ export default {
     {
       id: 'stack',
       title: 'Stack',
-      cover: 'images/stories/covers/stack.jpg',
+      cover: 'images/stories/covers/stack.webp',
       slides: storySlides('stack', 5),
     },
     {
       id: 'digitrell',
       title: 'Digitrell',
-      cover: 'images/stories/covers/digitrell.jpg',
+      cover: 'images/stories/covers/digitrell.webp',
       slides: storySlides('digitrell', 5, {}, 6000),
     },
     {
       id: 'play',
       title: 'Play',
-      cover: 'images/stories/covers/play.jpg',
+      cover: 'images/stories/covers/play.webp',
       slides: storySlides('play', 4, {
         1: { url: 'https://abhi-drops.itch.io/blareland', label: 'Play Blareland' },
         3: { url: 'https://abhi-drops.itch.io/stepup', label: 'Play StepUp' },

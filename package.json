@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "logo": "node scripts/make-logo.mjs",
-    "slides": "node scripts/slides/posts.mjs && node scripts/slides/college.mjs && node scripts/slides/taskodoro.mjs && node scripts/slides/stories.mjs"
+    "slides": "node scripts/slides/college.mjs && node scripts/slides/taskodoro.mjs && node scripts/slides/posts.mjs && node scripts/slides/avatar.mjs && node scripts/slides/stories.mjs"
   },
   "devDependencies": {
     "sharp": "^0.35.5",

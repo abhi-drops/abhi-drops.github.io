@@ -1,12 +1,11 @@
 // Brand-style carousel slides (1080×1440, 3:4) for the portfolio's project posts.
 // Usage: node scripts/slides/college.mjs [stepsaway | rhythm | flickmate]
 // Built from frames of the LinkedIn demo videos in source/frames.
-import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { sharp, ROOT, SRC } from './lib.mjs';
+import { sharp, SRC, OUT_ROOT, encode, writeSet } from './lib.mjs';
 
 const [, , ONLY] = process.argv;
-const FRAMES = `${SRC}frames`, OUT = `${ROOT}public/images/projects`;
+const FRAMES = `${SRC}frames`, OUT = `${OUT_ROOT}/projects`;
 const W = 1080, H = 1440, M = 72;
 const FULL = { left: 0, top: 90, width: 1280, height: 608 }; // frame minus browser chrome
 
@@ -113,7 +112,7 @@ const defs = (t) => `<defs>
 async function render(t, i, n, body, opts) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
     ${defs(t)}${t.bg(i)}${body}${chrome(t, i, n, opts)}</svg>`;
-  return sharp(Buffer.from(svg)).jpeg({ quality: 86, mozjpeg: true }).toBuffer();
+  return encode(sharp(Buffer.from(svg)));
 }
 
 // Title + subtitle block; returns y where content can start.
@@ -324,11 +323,9 @@ for (const [key, p] of Object.entries(projects)) {
   if (ONLY && ONLY !== key) continue;
   const t = themes[key];
   const n = p.slides.length + 2;
-  const dir = join(OUT, key);
-  mkdirSync(dir, { recursive: true });
   const bufs = [await coverSlide(t, p, 0, n)];
   for (const [i, s] of p.slides.entries()) bufs.push(await featureSlide(t, s, i + 1, n));
   bufs.push(await stackSlide(t, p, n - 1, n));
-  bufs.forEach((b, i) => writeFileSync(join(dir, `${String(i + 1).padStart(2, '0')}.jpg`), b));
+  await writeSet(join(OUT, key), bufs);
   console.log(key, bufs.length, 'slides');
 }
